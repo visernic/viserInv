@@ -50,7 +50,7 @@ const initialData: InvoiceData = {
   signatureUrl: null
 };
 
-// --- Helper Component (FIX: Moved OUTSIDE App component to prevent re-render focus loss) ---
+// --- Helper Component ---
 const AccordionItem = ({ 
   title, 
   id, 
@@ -126,7 +126,7 @@ function App() {
   const taxAmount = subtotal * (data.taxRate / 100);
   const total = subtotal + taxAmount;
 
-  // --- PDF Download (FIX: Extra Blank Page Issue) ---
+  // --- PDF Download (FIXED TYPESCRIPT ERROR) ---
   const handleDownload = () => {
     const element = previewRef.current;
     if (!element) return;
@@ -137,15 +137,17 @@ function App() {
     const originalMargin = element.style.marginBottom;
     
     element.style.boxShadow = 'none';
-    element.style.minHeight = 'auto'; // Allow height to fit content exactly
-    element.style.marginBottom = '0'; // Remove external margin
+    element.style.minHeight = 'auto'; 
+    element.style.marginBottom = '0'; 
 
     const opt = {
       margin: 0,
       filename: `${data.invNumber || 'invoice'}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
+      // FIX: Added 'as const' to satisfy TypeScript strict types
+      image: { type: 'jpeg' as const, quality: 0.98 }, 
       html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      // FIX: Added 'as const' here as well
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const } 
     };
 
     html2pdf().set(opt).from(element).save().then(() => {
