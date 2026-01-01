@@ -34,7 +34,7 @@ Make sure you have [Node.js](https://nodejs.org/) installed.
 
 1.  **Clone the repository**
     ```bash
-    git clone [https://github.com/vsn-mostafa/viserInv.git](https://github.com/vsn-mostafa/viserInv.git)
+    git clone [https://github.com/visernic/viserInv.git](https://github.com/visernic/viserInv.git)
     cd viserInv
     ```
 
